@@ -25,7 +25,7 @@
     }
   ],
   "vars": {
-    "APP_ORIGIN": "https://hillplate.example.workers.dev",
+    "APP_ORIGIN": "https://hillplate.mnirajda.workers.dev",
     "MENU_FEED_URL": "https://mnirajda-cyber.github.io/hillplate/menus.json"
   },
   "triggers": {

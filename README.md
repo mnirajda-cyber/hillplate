@@ -6,7 +6,7 @@ University of Arkansas campus meal and macro tracker. Independent of ChatGPT.
 
 Cloudflare Workers serves the website and API; D1 stores private accounts, sessions, diaries and goals. GitHub Actions checks official campus menus daily after 6 AM America/Chicago, preloads available upcoming days and publishes only public menu data to GitHub Pages. Cloudflare checks that feed hourly. Saved verified foods stay usable when the official source is unavailable. Menu dates are never substituted and unknown nutrition is never invented.
 
-This source is prepared but has not yet been published. Free service quotas apply. Scheduled GitHub jobs can be delayed, and GitHub can disable schedules in inactive public repositories. Source blocking or human-verification challenges require review; the updater never bypasses them.
+Published November 1, 2026 at https://hillplate.mnirajda.workers.dev/. Public menu feed: https://mnirajda-cyber.github.io/hillplate/menus.json. The first official source check returned HTTP 403; the saved catalog is available and daily checks remain scheduled. Free service quotas apply. Scheduled GitHub jobs can be delayed, and GitHub can disable schedules in inactive public repositories. Source blocking or human-verification challenges require review; the updater never bypasses them.
 
 ## Deploy
 
