@@ -1,0 +1,39 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "hillplate",
+  "main": "cloud/worker.mjs",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "workers_dev": true,
+  "assets": {
+    "directory": "./standalone-dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": [
+      "/api/*",
+      "/healthz",
+      "/logout"
+    ]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "hillplate",
+      "database_id": "cbf741bc-15b7-4542-aa60-f9179d70b7f7"
+    }
+  ],
+  "vars": {
+    "APP_ORIGIN": "https://hillplate.example.workers.dev",
+    "MENU_FEED_URL": "https://mnirajda-cyber.github.io/hillplate/menus.json"
+  },
+  "triggers": {
+    "crons": [
+      "47 * * * *"
+    ]
+  },
+  "observability": {
+    "enabled": false
+  }
+}

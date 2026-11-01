@@ -1,0 +1,13 @@
+import {readFile,mkdir,writeFile} from 'node:fs/promises';
+import {feed} from '../standalone/feed-validation.mjs';
+import {validateCapturedMenu} from '../standalone/menu-validation.mjs';
+import {digest} from './password.mjs';
+const payload=feed.parse(JSON.parse(await readFile(new URL('../app/data/public-menu-feed.json',import.meta.url),'utf8')));
+for(const m of payload.menus)validateCapturedMenu(m);
+const quote=s=>"'"+String(s).replaceAll("'","''")+"'",encode=x=>quote(JSON.stringify(x));
+const lines=[`INSERT INTO state VALUES('locations',${encode(payload.locations)}) ON CONFLICT(key) DO NOTHING;`];
+for(const m of payload.menus)lines.push(`INSERT INTO menus VALUES(${quote(m.date)},${quote(m.location.id)},${encode(m)},${quote(m.updatedAt||payload.generatedAt)}) ON CONFLICT(date,location_id) DO NOTHING;`);
+for(const f of payload.catalog)lines.push(`INSERT INTO catalog VALUES(${quote(digest(JSON.stringify([f.locationId,f.name,f.serving,f.calories])))},${quote(f.locationId)},${encode(f)}) ON CONFLICT(id) DO NOTHING;`);
+lines.push(`INSERT INTO state VALUES('feedSync',${encode({generatedAt:payload.generatedAt,lastError:null,sourceError:payload.refreshError||null})}) ON CONFLICT(key) DO NOTHING;`);
+await mkdir('.runtime',{recursive:true});await writeFile('.runtime/public-menu-seed.sql',lines.join('\n'));
+console.log(`Prepared public-only seed: ${payload.menus.length} dated menus, ${payload.catalog.length} saved foods. No private account data.`);

@@ -1,0 +1,58 @@
+name: Free campus menu checks
+on:
+  schedule:
+    - cron: '17 11,12 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: campus-menu-feed
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    environment:
+      name: github-pages
+      url: ${{ steps.publish.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Check today's menu and preload upcoming days
+        id: menus
+        continue-on-error: true
+        env:
+          MENU_PREFETCH_DAYS: '3'
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+        run: node standalone/free-daily.mjs
+      - name: Keep public menu data only
+        run: |
+          if [ ! -f app/data/public-menu-feed.json ]; then exit 1; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add app/data/public-menu-feed.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Update verified campus menu feed'
+            git push
+          fi
+          mkdir -p public-menu-feed
+          cp app/data/public-menu-feed.json public-menu-feed/menus.json
+          printf '%s' 'Hillplate public campus menu feed. No account or diary data is included.' > public-menu-feed/index.html
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: public-menu-feed
+      - uses: actions/deploy-pages@v4
+        id: publish
+      - name: Report source access failure without deleting saved menus
+        if: steps.menus.outcome == 'failure'
+        run: |
+          echo 'The source refresh failed. Previously verified menus and the saved-food catalog were retained.'
+          exit 1

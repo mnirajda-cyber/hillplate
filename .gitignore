@@ -1,0 +1,9 @@
+node_modules/
+.runtime/
+.wrangler/
+.hillplate-data/
+standalone-dist/
+.env*
+.dev.vars*
+*.sqlite*
+*.pem

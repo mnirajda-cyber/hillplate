@@ -1,0 +1,131 @@
+[
+  {
+    "id": "5877f02aee596f9b94e8911b",
+    "name": "1021 Food Hall",
+    "slug": "1021-food-hall"
+  },
+  {
+    "id": "5888d63eee596f130c01a9ea",
+    "name": "Cabo Mexican Grill, Union Food Court",
+    "slug": "cabo-mexican-grill-union-food-court"
+  },
+  {
+    "id": "69430c033db2d23518ac7c28",
+    "name": "Cabo Quesadillas",
+    "slug": "cabo-quesadillas"
+  },
+  {
+    "id": "5888d7beee596f132001a3cb",
+    "name": "Chick-Fil-A, Union Food Court",
+    "slug": "chick-fil-a-union-food-court"
+  },
+  {
+    "id": "5877f02aee596f9b94e89128",
+    "name": "Club Red Union",
+    "slug": "club-red-union"
+  },
+  {
+    "id": "5877f02bee596f9b94e8912c",
+    "name": "Eureka Pizza",
+    "slug": "eureka-pizza"
+  },
+  {
+    "id": "6852ef92c625af05917118bb",
+    "name": "Fowler's Nook",
+    "slug": "fowler-s-nook"
+  },
+  {
+    "id": "62a79152a9f13a0e2b9e001c",
+    "name": "FujiSan",
+    "slug": "fujisan"
+  },
+  {
+    "id": "5872971fee596f00db1bf743",
+    "name": "Fulbright Dining Hall"
+  },
+  {
+    "id": "5d237048c4b7ff0ab85c7a02",
+    "name": "Hill Coffee Co., Union",
+    "slug": "hill-coffee-co-union"
+  },
+  {
+    "id": "614c8e35b63f1e33925c8fa3",
+    "name": "Hill Coffee Co., Willard J. Walker",
+    "slug": "hill-coffee-co-willard-j-walker"
+  },
+  {
+    "id": "5d237048c4b7ff0ab85c7a03",
+    "name": "Maple Grill",
+    "slug": "maple-grill"
+  },
+  {
+    "id": "6a7b557069040b830fc0261f",
+    "name": "Natural State Market",
+    "slug": "natural-state-market"
+  },
+  {
+    "id": "5d55c2951ca48e0cd53a9f8f",
+    "name": "Paper Lantern, Union Food Court",
+    "slug": "paper-lantern-union-food-court"
+  },
+  {
+    "id": "6891019f610c4dd4375b2178",
+    "name": "Pho U",
+    "slug": "pho-u"
+  },
+  {
+    "id": "5d263e1e4198d409c35047b5",
+    "name": "Pig Theory",
+    "slug": "pig-theory"
+  },
+  {
+    "id": "587e8350ee596fb5520c3630",
+    "name": "Pomfret Dining Hall",
+    "slug": "pomfret-dining-hall"
+  },
+  {
+    "id": "5b71e520f3eeb60967f36c7e",
+    "name": "Rustic Italian, Union Food Court",
+    "slug": "rustic-italian-union-food-court"
+  },
+  {
+    "id": "5b6dd65df3eeb6095ef0ee26",
+    "name": "Slim Chickens",
+    "slug": "slim-chickens"
+  },
+  {
+    "id": "5877f02aee596f9b94e8911c",
+    "name": "Starbucks, Founders",
+    "slug": "starbucks-founders"
+  },
+  {
+    "id": "61ddeb28a9f13a0d2b71d50c",
+    "name": "Starbucks, Student Success Center",
+    "slug": "starbucks-student-success-center"
+  },
+  {
+    "id": "61d88f1fa9f13a0f5a9e8f72",
+    "name": "The Drove",
+    "slug": "the-drove"
+  },
+  {
+    "id": "6891019f610c4dd4375b2175",
+    "name": "The Drove - Smoothies",
+    "slug": "the-drove-smoothies"
+  },
+  {
+    "id": "5d6438c14198d410f4e27c42",
+    "name": "The Market, Champions Hall",
+    "slug": "the-market-champions-hall"
+  },
+  {
+    "id": "5888d6a43191a2379fdf4b5e",
+    "name": "True Burger, Union Food Court",
+    "slug": "true-burger-union-food-court"
+  },
+  {
+    "id": "5b6dedadf3eeb6095ef4af0a",
+    "name": "Where the Wild Greens AR Union",
+    "slug": "where-the-wild-greens-ar-union"
+  }
+]

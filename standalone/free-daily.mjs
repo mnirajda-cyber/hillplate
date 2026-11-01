@@ -1,0 +1,10 @@
+import fs from 'node:fs/promises';
+import {resolve,join} from 'node:path';
+import {openStore} from './storage.mjs';
+import {refreshMenus} from './refresh.mjs';
+import {centralTime} from './scheduler.mjs';
+import {exportFeed,importFeed} from './menu-feed.mjs';
+const root=resolve('.');const path=join(root,'app/data/public-menu-feed.json');const store=openStore(process.env.MENU_JOB_DATA_DIR||join(root,'.runtime/free-menu-job'));let previous={};try{previous=JSON.parse(await fs.readFile(path,'utf8'));importFeed(store,previous)}catch(e){if(e.code!=='ENOENT'){console.warn('Previous feed could not be loaded:',e.message);previous={}} }
+if(!store.get('locations')){store.set('locations',JSON.parse(await fs.readFile(join(root,'app/data/campus-locations.json'),'utf8')));const seed=JSON.parse(await fs.readFile(join(root,'app/data/menu-snapshot.json'),'utf8'));for(const m of seed.menus)store.db.prepare('INSERT OR IGNORE INTO menus VALUES(?,?,?,?)').run(m.date,m.location.id,JSON.stringify(m),m.updatedAt||seed.capturedAt)}
+const local=centralTime(),errors=[];const days=Math.max(1,Math.min(7,Number(process.env.MENU_PREFETCH_DAYS)||3));let attempted=false;
+try{if(process.env.GITHUB_EVENT_NAME==='schedule'&&(local.hour<6||previous.runDate===local.date&&!previous.refreshError)){console.log('Daily check already completed or it is before 6 AM Central.');process.exitCode=0}else{attempted=true;for(let i=0;i<days;i++){const date=new Date(Date.parse(local.date)+i*86400000).toISOString().slice(0,10);try{await refreshMenus(store,{date})}catch(e){errors.push(date+': '+e.message);if(/HTTP 40[13]|human verification/i.test(e.message))break}}const payload={...exportFeed(store,previous),runDate:local.date,refreshError:errors.length?errors.join(' | ').slice(0,4000):null};const tmp=path+'.tmp';await fs.writeFile(tmp,JSON.stringify(payload));await fs.rename(tmp,path);console.log(JSON.stringify({date:local.date,datedMenus:payload.menus.length,catalogFoods:payload.catalog.length,success:!errors.length}));if(errors.length){console.error(payload.refreshError);process.exitCode=1}}}finally{store.close()}
