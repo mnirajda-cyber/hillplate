@@ -12,7 +12,10 @@ concurrency:
   cancel-in-progress: false
 jobs:
   refresh:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
     timeout-minutes: 120
     environment:
       name: github-pages
@@ -24,12 +27,14 @@ jobs:
           node-version: '24'
           cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
+      - run: npx playwright install chrome
       - name: Check today's menu and preload upcoming days
         id: menus
         continue-on-error: true
         env:
           MENU_PREFETCH_DAYS: '3'
+          MENU_BROWSER_CHANNEL: chrome
+          MENU_BROWSER_HEADED: 'true'
           GITHUB_EVENT_NAME: ${{ github.event_name }}
         run: node standalone/free-daily.mjs
       - name: Keep public menu data only
