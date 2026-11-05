@@ -1,0 +1,9 @@
+import {useState} from 'react';
+export default function ElCerdoBuilder({items,onAdd}:{items:any[];onAdd:(foods:any[])=>void}){
+ const [amounts,setAmounts]=useState<Record<string,number>>({});
+ const ingredients=items.filter(f=>/el cerdo/i.test(f.station||'')&&!/burrito|chef.s choice/i.test(f.name)).filter((f,i,a)=>a.findIndex(x=>x.name===f.name)===i);
+ if(!ingredients.length)return null;
+ const selected=ingredients.filter(f=>amounts[f.name]>0);
+ const total=(key:string)=>Math.round(selected.reduce((sum,f)=>sum+f[key]*amounts[f.name],0)*10)/10;
+ return <section className="cerdo-builder"><div className="eyebrow">EL CERDO · BUILD YOUR OWN</div><h2>What went in your burrito?</h2><p>Choose only the ingredients you ate. Quantities are multiples of the published portions below. Add them to your plate together.</p><p className="catalog-explanation">Ingredient subtotal only: the saved menu does not yet include a verified El Cerdo tortilla or every topping. Include those separately before treating this as your full burrito total. The complete Beef Burrito recipe already includes its fillings.</p><div className="cerdo-options">{ingredients.map(f=><label key={f.name}><span><strong>{f.name}</strong><small>{f.serving} · {f.calories} kcal</small></span><select aria-label={'Portions of '+f.name} value={amounts[f.name]||0} onChange={e=>setAmounts({...amounts,[f.name]:Number(e.target.value)})}>{[[0,'None'],[0.5,'½ portion'],[1,'1 portion'],[1.5,'1½ portions'],[2,'2 portions']].map(([v,label])=><option key={v} value={v}>{label}</option>)}</select></label>)}</div><p aria-live="polite"><strong>Selected ingredients: {total('calories')} kcal</strong> · P {total('protein')}g · C {total('carbs')}g · F {total('fat')}g</p><button className="primary" disabled={!selected.length} onClick={()=>{onAdd(selected.map(f=>({...f,quantity:amounts[f.name]})));setAmounts({})}}>Add selected ingredients to plate</button></section>
+}
